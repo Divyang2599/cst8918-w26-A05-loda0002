@@ -125,8 +125,8 @@ terraform destroy
 ## Demo Screenshots
 
 ### VM Created
-![Architecture](<img width="1918" height="1021" alt="image" src="https://github.com/user-attachments/assets/3bb8e5a4-57a0-4612-b09a-cd951d0d464a" />
-)
+<img width="1918" height="1021" alt="image" src="https://github.com/user-attachments/assets/3bb8e5a4-57a0-4612-b09a-cd951d0d464a" />
+
 
 ### Working Deployment (SSH)
 ![Demo](<img width="1918" height="1020" alt="image" src="https://github.com/user-attachments/assets/739ad1f9-c422-456c-86bf-634d8cd012c3" />
