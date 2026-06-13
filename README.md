@@ -129,5 +129,5 @@ terraform destroy
 
 
 ### Working Deployment (SSH)
-![Demo](<img width="1918" height="1020" alt="image" src="https://github.com/user-attachments/assets/739ad1f9-c422-456c-86bf-634d8cd012c3" />
-)
+![Demo] <img width="1918" height="1020" alt="image" src="https://github.com/user-attachments/assets/739ad1f9-c422-456c-86bf-634d8cd012c3" />
+
