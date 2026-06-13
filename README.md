@@ -116,16 +116,18 @@ terraform destroy
 
 - Terraform uses **providers** (like plugins) to talk to Azure
 - You define **resources** in `.tf` files and Terraform figures out the right order to create them
-- **Variables** make the code reusable — I can change the prefix and deploy a whole new environment
+- **Variables** make the code reusable - I can change the prefix and deploy a whole new environment
 - **cloud-init** lets you run scripts on a VM right after it boots (that's how Apache got installed automatically)
-- The **NSG (Network Security Group)** is basically a firewall — without opening ports 22 and 80, nothing would work even with a public IP
+- The **NSG (Network Security Group)** is basically a firewall - without opening ports 22 and 80, nothing would work even with a public IP
 
 ---
 
 ## Demo Screenshots
 
-### Architecture Diagram
-![Architecture](a05-architecture.png)
+### VM Created
+![Architecture](<img width="1918" height="1021" alt="image" src="https://github.com/user-attachments/assets/3bb8e5a4-57a0-4612-b09a-cd951d0d464a" />
+)
 
-### Working Deployment (Apache + SSH)
-![Demo](a05-demo.png)
+### Working Deployment (SSH)
+![Demo](<img width="1918" height="1020" alt="image" src="https://github.com/user-attachments/assets/739ad1f9-c422-456c-86bf-634d8cd012c3" />
+)
