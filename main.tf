@@ -70,7 +70,8 @@ resource "azurerm_public_ip" "webserver_ip" {
   name                = "${var.labelPrefix}-A05-PublicIP"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  allocation_method   = "Dynamic"
+  allocation_method   = "Static"     
+  sku                 = "Standard"   
 }
 
 # ── STEP 6: Virtual Network (VNet) ────────────────────────────────────────────
@@ -173,7 +174,7 @@ resource "azurerm_linux_virtual_machine" "webserver" {
   name                = "${var.labelPrefix}-A05-VM"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  size                = "Standard_B1s"          # cheapest VM for testing
+  size                = "Standard_B2ats_v2"          # cheapest VM for testing
   admin_username      = var.admin_username
 
   # Connect NIC to the VM
