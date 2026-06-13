@@ -4,8 +4,7 @@
 # Course:  CST8918 - DevOps: Infrastructure as Code
 # ============================================================
 
-# ── STEP 1: Tell Terraform which version + providers we need ──────────────────
-# Think of this like a package.json in Node — it lists your dependencies.
+# ── STEP 1: Tell Terraform which version + providers we need
 terraform {
   required_version = ">= 1.1.0"
 
@@ -23,9 +22,8 @@ terraform {
   }
 }
 
-# ── STEP 2: Configure the providers ──────────────────────────────────────────
+# ── STEP 2: Configure the providers 
 provider "azurerm" {
-  # Empty features block = use Azure defaults. Required but can be blank.
   features {}
 }
 
@@ -33,14 +31,12 @@ provider "cloudinit" {
   # No extra config needed
 }
 
-# ── STEP 3: Variables (reusable inputs) ───────────────────────────────────────
-# Variables are like function parameters — you pass values in at runtime.
-# This avoids hardcoding names everywhere.
+# ── STEP 3: Variables
 
 variable "labelPrefix" {
   description = "Your college username. Forms the start of every resource name."
   type        = string
-  # No default → Terraform will ask you for it when you run apply
+
 }
 
 variable "region" {
@@ -55,17 +51,15 @@ variable "admin_username" {
   default     = "azureadmin"
 }
 
-# ── STEP 4: Resource Group ────────────────────────────────────────────────────
-# A Resource Group is a logical folder in Azure. Everything related to this
-# project lives inside it. Easy to delete everything at once later.
+# ── STEP 4: Resource Group
 resource "azurerm_resource_group" "rg" {
   name     = "${var.labelPrefix}-A05-RG"   # e.g. loda0002-A05-RG
   location = var.region
 }
 
 # ── STEP 5: Public IP Address ─────────────────────────────────────────────────
-# This is the IP the internet uses to reach your VM.
-# Dynamic = Azure assigns it when the VM starts (free tier, may change on restart).
+# This is the IP the internet uses to reach VM.
+
 resource "azurerm_public_ip" "webserver_ip" {
   name                = "${var.labelPrefix}-A05-PublicIP"
   location            = azurerm_resource_group.rg.location
@@ -74,9 +68,7 @@ resource "azurerm_public_ip" "webserver_ip" {
   sku                 = "Standard"   
 }
 
-# ── STEP 6: Virtual Network (VNet) ────────────────────────────────────────────
-# A VNet is a private network inside Azure — like a virtual office LAN.
-# 10.0.0.0/16 means we have 65,536 possible private IP addresses in this network.
+# ── STEP 6: Virtual Network (VNet) 
 resource "azurerm_virtual_network" "vnet" {
   name                = "${var.labelPrefix}-A05-VNet"
   location            = azurerm_resource_group.rg.location
@@ -84,9 +76,7 @@ resource "azurerm_virtual_network" "vnet" {
   address_space       = ["10.0.0.0/16"]
 }
 
-# ── STEP 7: Subnet ────────────────────────────────────────────────────────────
-# A subnet is a segment of the VNet. Like splitting an office floor into rooms.
-# 10.0.1.0/24 = 256 addresses within the VNet for this subnet.
+# ── STEP 7: Subnet 
 resource "azurerm_subnet" "subnet" {
   name                 = "${var.labelPrefix}-A05-Subnet"
   resource_group_name  = azurerm_resource_group.rg.name
@@ -94,9 +84,7 @@ resource "azurerm_subnet" "subnet" {
   address_prefixes     = ["10.0.1.0/24"]
 }
 
-# ── STEP 8: Network Security Group (NSG) ─────────────────────────────────────
-# An NSG is a firewall. It controls what traffic is allowed IN and OUT.
-# Without this, no traffic reaches your VM even if it has a public IP.
+# ── STEP 8: Network Security Group (NSG) 
 resource "azurerm_network_security_group" "nsg" {
   name                = "${var.labelPrefix}-A05-NSG"
   location            = azurerm_resource_group.rg.location
@@ -129,10 +117,8 @@ resource "azurerm_network_security_group" "nsg" {
   }
 }
 
-# ── STEP 9: Network Interface Card (NIC) ─────────────────────────────────────
-# A NIC connects the VM to the network — like a network card in a physical computer.
-# It gets both a private IP (inside VNet) and the public IP (from the internet).
-resource "azurerm_network_interface" "nic" {
+# ── STEP 9: Network Interface Card (NIC)
+# A NIC connects the VM to the network 
   name                = "${var.labelPrefix}-A05-NIC"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
@@ -145,9 +131,7 @@ resource "azurerm_network_interface" "nic" {
   }
 }
 
-# ── STEP 10: Attach NSG to the NIC ───────────────────────────────────────────
-# We apply the firewall rules to the NIC (not the whole subnet) because these
-# rules are specific to the web server VM only.
+# ── STEP 10: Attach NSG to the NIC 
 resource "azurerm_network_interface_security_group_association" "nsg_assoc" {
   network_interface_id      = azurerm_network_interface.nic.id
   network_security_group_id = azurerm_network_security_group.nsg.id
@@ -166,15 +150,12 @@ data "cloudinit_config" "init" {
   }
 }
 
-# ── STEP 12: The Virtual Machine ─────────────────────────────────────────────
-# This is the actual Ubuntu server. All previous resources lead to this one.
-# Notice how it references nic, resource group, cloud-init — Terraform figures
-# out the correct ORDER to create everything automatically.
-resource "azurerm_linux_virtual_machine" "webserver" {
+# ── STEP 12: The Virtual Machine 
+
   name                = "${var.labelPrefix}-A05-VM"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  size                = "Standard_B2ats_v2"          # cheapest VM for testing
+  size                = "Standard_B2ats_v2"          
   admin_username      = var.admin_username
 
   # Connect NIC to the VM
