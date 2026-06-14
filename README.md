@@ -1,7 +1,7 @@
 # LAB-A05 Terraform Web Server on Azure
 
 **Course:** CST8918 - DevOps: Infrastructure as Code  
-**Student:** Divyang (loda0002)  
+**Student:** Divyang Lodarya   
 **Professor:** Robert McKenney
 
 ---
