@@ -131,3 +131,7 @@ terraform destroy
 ### Working Deployment (SSH)
 ![Demo] <img width="1918" height="1020" alt="image" src="https://github.com/user-attachments/assets/739ad1f9-c422-456c-86bf-634d8cd012c3" />
 
+### Browser
+![Apache] <img width="1918" height="1031" alt="image" src="https://github.com/user-attachments/assets/92e24af3-ad9d-4f3f-8cf2-289536cc8f59" />
+
+
